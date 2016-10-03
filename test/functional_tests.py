@@ -24,7 +24,7 @@ class NewVisitorTest(unittest.TestCase):
         self.assertIn('Off the Rails Cosplay', header_text)
 
         #She is invited to enter a Cosplay Costume right away
-        inputbox = self.brower.find_element_by_id('id_new_cosplay_name')
+        inputbox = self.browser.find_element_by_id('id_new_cosplay_name')
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
             'Enter cosplay name'
@@ -42,7 +42,8 @@ class NewVisitorTest(unittest.TestCase):
         table = self.browser.find_element_by_id('id_cosplay_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(
-            any(row.text == '1: Some Cosplay' for row in rows)
+            any(row.text == '1: Some Cosplay' for row in rows),
+            "New cosplay item did not appear in table"
         )
         #A text box invite another addition of a cosplay
 
