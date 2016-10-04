@@ -13,6 +13,11 @@ class NewVisitorTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
+    def check_for_row_in_list_table(self,row_text):
+        table = self.browser.find_element_by_id('id_cosplay_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn( row_text, [row.text for row in rows])
+        
     def test_can_start_a_list_and_retrieve_it_later(self):
         #Sally heard about a cool cosplay page and wanted to check out its
         #homepage
@@ -39,9 +44,7 @@ class NewVisitorTest(unittest.TestCase):
         #for that cosplay
         inputbox.send_keys(Keys.ENTER)        
 
-        table = self.browser.find_element_by_id('id_cosplay_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn( '1: Some Cosplay', [row.text for row in rows])
+        self.check_for_row_in_list_table('1: Some Cosplay')
         #A text box invite another addition of a cosplay
         
         #She enters the cosplay paired with the first
@@ -49,13 +52,8 @@ class NewVisitorTest(unittest.TestCase):
         inputbox.send_keys('Another crappy cosplay')
         inputbox.send_keys(Keys.ENTER)
         #She hits enter and the information about the second cosplay is displayed
-        table = self.browser.find_element_by_id('id_cosplay_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn( '1: Some Cosplay', [row.text for row in rows])
-        self.assertIn(
-            '2: Another crappy cosplay' ,
-            [row.text for row in rows]
-        )
+        self.check_for_row_in_list_table('1: Some Cosplay')
+        self.check_for_row_in_list_table('2: Another crappy cosplay')
 
         #Sally wonders whether the site will remember her cosplays, then notices the
         #site has generated a unique URL for here -- and lets her know about it
