@@ -37,23 +37,29 @@ class NewVisitorTest(unittest.TestCase):
 
         #When she hits enter the page updates and now displays the information
         #for that cosplay
-        inputbox.send_keys(Keys.ENTER)
+        inputbox.send_keys(Keys.ENTER)        
 
         table = self.browser.find_element_by_id('id_cosplay_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-            any(row.text == '1: Some Cosplay' for row in rows),
-            "New cosplay item did not appear in table"
-        )
+        self.assertIn( '1: Some Cosplay', [row.text for row in rows])
         #A text box invite another addition of a cosplay
-
+        
         #She enters the cosplay paired with the first
-        self.fail('Finish the test!')
+        inputbox = self.browser.find_element_by_id('id_new_cosplay_name')
+        inputbox.send_keys('Another crappy cosplay')
+        inputbox.send_keys(Keys.ENTER)
         #She hits enter and the information about the second cosplay is displayed
+        table = self.browser.find_element_by_id('id_cosplay_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn( '1: Some Cosplay', [row.text for row in rows])
+        self.assertIn(
+            '2: Another crappy cosplay' ,
+            [row.text for row in rows]
+        )
 
         #Sally wonders whether the site will remember her cosplays, then notices the
         #site has generated a unique URL for here -- and lets her know about it
-
+        self.fail('Finish the test!')
         #She visits that URL - and her list of Cosplays are there.
 
         #Satisfied show goes to sleep
