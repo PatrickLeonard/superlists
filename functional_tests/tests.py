@@ -1,9 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from selenium.webdriver.common.keys import Keys
-import unittest
+from django.test import LiveServerTestCase
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox(firefox_binary=FirefoxBinary(
@@ -21,7 +21,7 @@ class NewVisitorTest(unittest.TestCase):
     def test_can_start_a_list_and_retrieve_it_later(self):
         #Sally heard about a cool cosplay page and wanted to check out its
         #homepage
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         #She notieces the page title and header mentions Off The Rails Cosplay
         self.assertIn('Off the Rails Cosplay' , self.browser.title)
@@ -60,7 +60,5 @@ class NewVisitorTest(unittest.TestCase):
         self.fail('Finish the test!')
         #She visits that URL - and her list of Cosplays are there.
 
-        #Satisfied show goes to sleep
+        #Satisfied she goes to sleep
 
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')
