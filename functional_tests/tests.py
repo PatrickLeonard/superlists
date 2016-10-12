@@ -14,7 +14,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.browser.quit()
 
     def check_for_row_in_list_table(self,row_text):
-        table = self.browser.find_element_by_id('id_cosplay_list_table')
+        table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertIn( row_text, [row.text for row in rows])
         
@@ -23,16 +23,16 @@ class NewVisitorTest(LiveServerTestCase):
         #homepage
         self.browser.get(self.live_server_url)
 
-        #She notieces the page title and header mentions Off The Rails Cosplay
-        self.assertIn('Off the Rails Cosplay' , self.browser.title)
+        #She notices the page title and header mentions SuperLists
+        self.assertIn('SuperLists' , self.browser.title)
         header_text = self.browser.find_element_by_tag_name('h1').text
-        self.assertIn('Off the Rails Cosplay', header_text)
+        self.assertIn('Start a new To-Do list', header_text)
 
         #She is invited to enter a Cosplay Costume right away
-        inputbox = self.browser.find_element_by_id('id_new_cosplay_name')
+        inputbox = self.browser.find_element_by_id('id_new_item')
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
-            'Enter cosplay name'
+            'Enter to-do item'
         )
 
         #She types the name of the costume, type of media, group pairing (link),
@@ -49,7 +49,7 @@ class NewVisitorTest(LiveServerTestCase):
         #A text box invite another addition of a cosplay
         
         #She enters the cosplay paired with the first
-        inputbox = self.browser.find_element_by_id('id_new_cosplay_name')
+        inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Another crappy cosplay')
         inputbox.send_keys(Keys.ENTER)
         #She hits enter and the information about the second cosplay is displayed
@@ -77,7 +77,7 @@ class NewVisitorTest(LiveServerTestCase):
         #Francis gets his own unique URL
         francis_list_url = self.browser.current_url
         self.assertRegex(francis_list_url, '/lists/.+')
-        self.asertNotEqual(francis_list_url,sally_list_url)
+        self.assertNotEqual(francis_list_url,sally_list_url)
 
         #Again, there is no trace of Sally's list
         page_text = self.browser.find_element_by_tag_name('body').text
