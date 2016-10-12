@@ -1,9 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from selenium.webdriver.common.keys import Keys
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox(firefox_binary=FirefoxBinary(
@@ -11,8 +11,30 @@ class NewVisitorTest(LiveServerTestCase):
 ))
         self.browser.implicitly_wait(3)
     def tearDown(self):
+        self.browser.refresh()
         self.browser.quit()
 
+    def test_layout_and_styling(self):
+        #Sally goes to the home page
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024,768)
+
+        #She she notices the input box is nicely centered
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width'] / 2,
+            512,
+            delta=6
+        )
+
+        inputbox.send_keys('testing\n')
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width'] / 2,
+            512,
+            delta=6
+        )
+        
     def check_for_row_in_list_table(self,row_text):
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
@@ -24,7 +46,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.browser.get(self.live_server_url)
 
         #She notices the page title and header mentions SuperLists
-        self.assertIn('SuperLists' , self.browser.title)
+        self.assertIn('To-Do lists' , self.browser.title)
         header_text = self.browser.find_element_by_tag_name('h1').text
         self.assertIn('Start a new To-Do list', header_text)
 
@@ -83,7 +105,3 @@ class NewVisitorTest(LiveServerTestCase):
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Some Cosplay', page_text)
         self.assertNotIn('Another crappy cosplay', page_text)
-
-        #Satisfied they both go back to sleep
-        self.fail('Hit the Self fail!')
-
