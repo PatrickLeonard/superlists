@@ -21,9 +21,9 @@ class NewVisitorTest(StaticLiveServerTestCase):
             super(NewVisitorTest,cls).tearDownClass()
             
     def setUp(self):
-        self.browser = webdriver.Firefox(firefox_binary=FirefoxBinary(
-    firefox_path='C:\\Program Files\\Mozilla Firefox-ESR\\firefox.exe'
-))
+        self.browser = webdriver.Chrome(
+            'C:\\Users\\Patrick\\Desktop\\chromedriver_win32\chromedriver.exe'
+        )
         self.browser.implicitly_wait(3)
     def tearDown(self):
         self.browser.refresh()
@@ -79,7 +79,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
         #When she hits enter the page updates and now displays the information
         #for that cosplay
-        inputbox.send_keys(Keys.ENTER)        
+        inputbox.send_keys(Keys.ENTER)
         sally_list_url = self.browser.current_url
         self.assertRegex(sally_list_url, 'lists/.+')
         self.check_for_row_in_list_table('1: Some Cosplay')
@@ -96,7 +96,9 @@ class NewVisitorTest(StaticLiveServerTestCase):
         ##We use a new browser session to make sure that no information
         ##of Sally's is coming through from cookies, etc.
         self.browser.quit()
-        self.browser = webdriver.Firefox()
+        self.browser =  webdriver.Chrome(
+            'C:\\Users\\Patrick\\Desktop\\chromedriver_win32\chromedriver.exe'
+        )
 
         #Francis visits the home page. There is no sign of Sally's
         #list
