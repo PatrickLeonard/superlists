@@ -15,10 +15,10 @@ class NewVisitorTest(FunctionalTest):
         self.assertIn('Start a new To-Do list', header_text)
 
         #She is invited to enter a Cosplay Costume right away
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
-            'Enter to-do item'
+            'Enter a to-do item'
         )
 
         #She types the name of the costume, type of media, group pairing (link),
@@ -35,7 +35,7 @@ class NewVisitorTest(FunctionalTest):
         #A text box invite another addition of a cosplay
         
         #She enters the cosplay paired with the first
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Another crappy cosplay')
         inputbox.send_keys(Keys.ENTER)
         #She hits enter and the information about the second cosplay is displayed
@@ -58,7 +58,7 @@ class NewVisitorTest(FunctionalTest):
 
         #Francis starts a new list by entering a new item He
         #doesn't cosplay.
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Buy milk')
         inputbox.send_keys(Keys.ENTER)
 
