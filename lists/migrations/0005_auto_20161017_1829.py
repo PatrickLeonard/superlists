@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='item',
             name='text',
-            field=models.TextField(default='', unique=True),
+            field=models.TextField(default=''),
         ),
         migrations.AlterUniqueTogether(
             name='item',
