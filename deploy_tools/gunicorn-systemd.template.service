@@ -7,6 +7,8 @@ User=treize
 WorkingDirectory=/home/treize/sites/SITENAME/source
 ExecStart=/home/treize/sites/SITENAME/virtualenv/bin/gunicorn \
   --bind unix:/tmp/SITENAME.socket \
+  --access-logfile ../access.log \
+  --error-logfile ../error.log \
   superlists.wsgi:application
 
 [Install]
