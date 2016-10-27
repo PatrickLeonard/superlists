@@ -21,12 +21,8 @@ class MyListsTest(FunctionalTest):
         ))
 
     def test_logged_in_users_lists_are_saved_as_my_lists(self):
-        email = 'p.leonard.example@gmail.com'
-        self.browser.get(self.server_url)
-        self.assert_logged_out(email)
-
         # Sally is a logged-in user
-        self.create_pre_authenticated_session(email)
+        self.create_pre_authenticated_session('p.leonard.example@gmail.com')
 
         # Sally goes to the home page and starts a list
         self.browser.get(self.server_url)
@@ -44,7 +40,7 @@ class MyListsTest(FunctionalTest):
 
         # She decides to start another list, just to see
         self. browser.get(self.server_url)
-        self.get_item_box().send_keys('Icek Te Picard\n')
+        self.get_item_input_box().send_keys('Icek Te Picard\n')
         second_list_url = self.browser.current_url
 
         # Under "My lists", her new list appears

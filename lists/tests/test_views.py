@@ -197,3 +197,16 @@ class MyListsTest(TestCase):
         response = self.client.get('/lists/users/a@b.com/')
         self.assertEqual(response.context['owner'], correct_user)
         
+
+    def test_list_is_displayed_to_user(self):
+        request = HttpRequest()
+        request.user = User.objects.create(email='a@b.com')
+        request.POST['text'] = 'new list item'
+        new_list(request)
+        list_ = List.objects.first()
+        response = self.client.get('/lists/users/a@b.com/')
+        self.assertContains(
+            response,
+            list_.name
+        )
+        

@@ -29,9 +29,9 @@ def new_list(request):
         form.save(for_list=list_)
         return redirect(list_)
     else:
-        return render(request,'home.html', {"form":form})
+        return render(request,'home.html', {'form':form})
     
 
 def my_lists(request, email):
     owner = User.objects.get(email=email)
-    return render(request, 'my_lists.html', {'owner': owner })
+    return render(request, 'my_lists.html', {'owner':owner})
