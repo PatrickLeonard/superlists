@@ -27,9 +27,7 @@ class FunctionalTest(StaticLiveServerTestCase):
     def setUp(self):
         if self.against_staging:
             reset_database(self.server_host)
-        self.browser = webdriver.Chrome(
-            'C:\\Users\\Patrick\\Desktop\\chromedriver_win32\chromedriver.exe'
-        )
+        self.browser = webdriver.Chrome()
         self.browser.implicitly_wait(3)
         
     def tearDown(self):
