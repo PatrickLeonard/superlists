@@ -21,6 +21,7 @@ class NewVisitorTest(FunctionalTest):
             'Enter a to-do item'
         )
 
+        self.fail()
         #She types the name of the costume, type of media, group pairing (link),
         #where/when it was worn at, the 'Off the Rails Factor', and then a large
         #description of the cosplay.
