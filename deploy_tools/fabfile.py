@@ -59,8 +59,3 @@ def _update_database(source_folder):
         source_folder,
     ))
 
-def _restart_services(source_folder):
-    run('systemctl daemon-reload')
-    run('systemctl reload nginx')
-    run('systemctl enable gunicorn-%s' % env.host)
-    run('systemctl start gunicorn-%s' % env.host)
