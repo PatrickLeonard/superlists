@@ -13,6 +13,7 @@ def deploy():
     _update_virtualenv(source_folder)
     _update_static_files(source_folder)
     _update_database(source_folder)
+    _restart_services(source_folder)
 
 def _create_directory_structure_if_necessary(site_folder):
     for subfolder in ( 'database', 'static', 'virtualenv', 'source'):
@@ -57,3 +58,9 @@ def _update_database(source_folder):
     run('cd %s && ../virtualenv/bin/python3 manage.py migrate --fake-initial --noinput' % (
         source_folder,
     ))
+
+def _restart_services(source_folder):
+    run('sudo systemctl daemon-reload')
+    run('sudo systemctl reload nginx')
+    run('sudo systemctl enable gunicorn-%s' % env.host)
+    run('sudo systemctl start gunicorn-%s' % env.host)
